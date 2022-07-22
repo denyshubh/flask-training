@@ -1,7 +1,7 @@
 from flask import Flask
 from controller.ers_users_controller import er
 from flask_cors import CORS
-from flask_session import Session
+# from flask_session import Session
 
 if __name__ == "__main__":
     app = Flask(__name__)
@@ -11,7 +11,7 @@ if __name__ == "__main__":
     CORS(app)  # Instructs our webserver to tell browsers that any origin is allowed. By origin we mean the source
     # where the HTML, CSS, and JS are originating from
 
-    Session(app)
+    # Session(app)
 
     app.register_blueprint(er)
 

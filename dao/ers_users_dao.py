@@ -1,89 +1,113 @@
 import psycopg
 
-from model.ers_users import Ers_user
+from model.ers_users import ErsUser
 
 
 class Ers_UserDao:
 
-    def get_user_by_username_and_password(self, username, password):
-        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
+    def login(self, username, password):
+        command = "SELECT * from ERS_Users WHERE username = %s AND password = %s"
+
+        try:
+            with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
                                  password="zxcvbnm") as conn:
-            with conn.cursor() as cur:
-                cur.execute("SELECT * from registration.users WHERE username = %s AND password = %s", (username, password))
+                with conn.cursor() as cur:
+                    cur.execute(command, [username, password], binary=True)
 
-                ers_user_info = cur.fetchone()
+                    ers_user_info = cur.fetchone()
 
-                if ers_user_info is None:
-                    return None
+                    if ers_user_info:
+                        body = ErsUser(*ers_user_info)
+                        return body
 
-                username = ers_user_info[0]
-                password = ers_user_info[1]
-                first_name = ers_user_info[2]
-                last_name = ers_user_info[3]
-                gender = ers_user_info[4]
-                phone_number = ers_user_info[5]
-                email_address = ers_user_info[6]
-
-                return ers_user_info(username, password, first_name, last_name, gender, phone_number, email_address)
+        except Exception as e:
+            print(e)
+        return None
 
     def get_user_by_email(self, email):
-        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
+        command = "SELECT * from ERS_Users WHERE email_address = %s"
+
+        try:
+            with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
                                  password="zxcvbnm") as conn:
-            with conn.cursor() as cur:
-                cur.execute("SELECT * from registration.users WHERE email_address = %s", (email,))
+                with conn.cursor() as cur:
+                    cur.execute(command, [email], binary=True)
 
-                ers_user_info = cur.fetchone()
+                    ers_user_info = cur.fetchone()
 
-                if ers_user_info is None:
-                    return None
+                    if ers_user_info:
+                        body = ErsUser(*ers_user_info)
+                        return body
 
-                username = ers_user_info[0]
-                password = ers_user_info[1]
-                first_name = ers_user_info[2]
-                last_name = ers_user_info[3]
-                gender = ers_user_info[4]
-                phone_number = ers_user_info[5]
-                email_address = ers_user_info[6]
-
-                return ers_user_info(username, password, first_name, last_name, gender, phone_number, email_address)
+        except Exception as e:
+            print(e)
+        return None
 
     def get_user_by_username(self, username):
-        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
+        command = "SELECT * from ERS_Users WHERE username = %s"
+
+        try:
+            with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
                                  password="zxcvbnm") as conn:
-            with conn.cursor() as cur:
-                cur.execute("SELECT * FROM registration.users WHERE username = %s", (username,))
+                with conn.cursor() as cur:
+                    cur.execute(command, [username], binary=True)
 
-                ers_user_info = cur.fetchone()
+                    ers_user_info = cur.fetchone()
 
-                if ers_user_info is None:
-                    return None
+                    if ers_user_info:
+                        body = ErsUser(*ers_user_info)
+                        return body
 
-                username = ers_user_info[0]
-                password = ers_user_info[1]
-                first_name = ers_user_info[2]
-                last_name = ers_user_info[3]
-                gender = ers_user_info[4]
-                phone_number = ers_user_info[5]
-                email_address = ers_user_info[6]
+        except Exception as e:
+            print(e)
+        return None
 
-                return ers_user_info(username, password, first_name, last_name, gender, phone_number, email_address)
+    def get_user_by_id(self, user_id):
+        command = "SELECT * from ERS_Users WHERE user_id = %s"
+        try:
+            with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
+                                 password="zxcvbnm") as conn:
+                with conn.cursor() as cur:
+                    cur.execute(command, [user_id], binary=True)
+                    ers_user_info = cur.fetchone()
+
+                    if ers_user_info:
+                        body = ErsUser(*ers_user_info)
+                        return body
+
+        except Exception as e:
+            print(e)
+        return None
 
     def add_user(self, ers_user_obj):
-        with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
+        command = (
+            "INSERT INTO ERS_Users VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *"
+        )
+        try:
+            with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
                                  password="zxcvbnm") as conn:
-            with conn.cursor() as cur:
-                cur.execute("INSERT INTO registration.users VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING *",
-                            (ers_user_obj.username,
-                             ers_user_obj.password,
-                             ers_user_obj.first_name,
-                             ers_user_obj.last_name,
-                             ers_user_obj.gender,
-                             ers_user_obj.phone_number,
-                             ers_user_obj.email_address))
+                with conn.cursor() as cur:
+                    with conn.cursor() as cur:
+                        cur.execute(command, (
+                            ers_user_obj.get('username'),
+                            ers_user_obj.get('password'),
+                            ers_user_obj.get('middle_initial'),
+                            ers_user_obj.get('last_name'),
+                            ers_user_obj.get('gender'),
+                            ers_user_obj.get('role'),
+                            ers_user_obj.get('phone_number'),
+                            ers_user_obj.get('email_address')
+                        ))
+                        conn.commit()
+                        inserted_row = cur.fetchone()
+                        if inserted_row:
+                            return ErsUser(*inserted_row)  # unpacking # user registered success
+        except Exception as e:
+            print(e)
+        return None # User already exixts
 
-                user_that_was_inserted = cur.fetchone()
-                conn.commit()
+    def update_user(self, ers_user_obj):
+        pass
 
-                return ers_user_obj(user_that_was_inserted[0], user_that_was_inserted[1], user_that_was_inserted[2]
-                            , user_that_was_inserted[3], user_that_was_inserted[4], user_that_was_inserted[5]
-                            , user_that_was_inserted[6])
+    def delete_user(self, user_id):
+        pass

@@ -2,11 +2,11 @@ from flask import Blueprint, request, session
 
 from exception.exception_login import LoginError
 from exception.exception_registration import RegistrationError
-from model.ers_users import Ers_user
-from service.ers_users_service import Ers_userService
+from model.ers_users import ErsUser
+from service.ers_users_service import Ers_UserService
 
 er = Blueprint("ers_user_controller", __name__)
-user_service = Ers_userService()
+Ers_userService = Ers_userService()
 
 
 @er.route('/login_status', methods=['GET'])
@@ -64,7 +64,7 @@ def add_ers_user():
     email_address = request_body_dict.get('email_address')
 
     try:
-        added_ers_user = user_service.add_user(Ers_userService(username, password, first_name, last_name, gender, phone_number,
+        added_ers_user = Ers_userService.add_user(Ers_userService(username, password, first_name, last_name, gender, phone_number,
                                                         email_address))
     except RegistrationError as e:
         return {

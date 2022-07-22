@@ -1,4 +1,4 @@
-class Ers_user:
+class ErsUser:
 
     def __init__(self, username, password, first_name, last_name, gender, role, phone_number, email_address):
         self.username = username
