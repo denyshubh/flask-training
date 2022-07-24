@@ -5,7 +5,7 @@ from model.ers_reimbursement import ErsReimburse
 
 class ErsReimbDao:
 
-    def get_ers_user_reimb(self, user_id):
+    def get_reimb_by_id(self, user_id):
         command = "select * from ERS_REIMBURSEMENT WHERE user_id=(%s);"
         try:
             with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
@@ -14,8 +14,8 @@ class ErsReimbDao:
                     cur.execute(command, [user_id], binary=True)
                     data = cur.fetchall()  # fetching all rows from customer's table
                     body = []
-                    for account in data:
-                        body.append(ErsReimburse(*account))
+                    for reimburse in data:
+                        body.append(ErsReimburse(*reimburse))
                     if body:
                         return body
         except Exception as e:

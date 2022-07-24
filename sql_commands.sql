@@ -1,13 +1,13 @@
 CREATE TABLE ERS_Users (
 	user_id SERIAL PRIMARY KEY,
-	username VARCHAR(20) NOT NULL,
-	password VARCHAR(500) NOT NULL,
+	username VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(255) NOT NULL,
 	role text NOT NULL CHECK( role in ('finance_manager','employee')),
 	first_name VARCHAR(100) NOT NULL,
 	last_name VARCHAR(100) NOT NULL,
 	gender VARCHAR(20) NOT NULL,
 	phone_number VARCHAR (12) NOT null CHECK(phone SIMILAR TO '[0-9]{3}-[0-9]{3}-[0-9]{4}'),
-    email_address VARCHAR (50) unique NOT null check (email like '%_@__%.__%')
+    email_address VARCHAR (255) unique NOT null check (email like '%_@__%.__%')
 
 );
 

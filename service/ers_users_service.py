@@ -25,10 +25,24 @@ class Ers_UserService:
 
         if self.user_validate(ers_users_obj):
             added_user_obj = self.user_dao.add_user(ers_users_obj)
-            return added_user_obj.to_dict()
+            return added_user_obj
         else:
             print('Invalid User Data')
             return {'msg': 'Please Enter Valid User Data', 'status': 404}
+
+    def get_user_by_id(self, user_id):
+        user = self.Ers_UserDao.get_user_by_id(user_id)
+        if user is None:
+            print(f'User with id {user_id} does not exists')
+            return None
+        return user
+
+    def get_user_by_username(self, username):
+        user = self.Ers_UserDao.get_user_by_username(username)
+        if user is None:
+            print(f'User with username {username} does not exists')
+            return None
+        return user
 
     def user_validate(self, ers_users_obj):
         try:
