@@ -5,8 +5,8 @@ from app.model.ers_users import ErsUser
 reimb = Blueprint("ers_reimburse_controller", __name__)
 reimb_service = Ers_ReimburseService()
 
-user_logged_in = True if session.get('auth_token') else False
-user_id, role = ErsUser.decode_auth_token(session.get('auth_token'))
+user_logged_in = True # if session.get('auth_token') else False
+user_id, role = ErsUser.decode_auth_token('asdfghjkl123456')
 
 
 @reimb.route('/reimburse', methods=['GET'])
@@ -65,8 +65,8 @@ def get_reimb_by_user_id(ers_user_id):
         return make_response(jsonify(responseObject)), 202
 
 
-@er.route('/ers_user/<string:ers_user_id>/reimburse/<string:reimb_id', methods=['GET'])
-def get_reimb_by_reimb_id(reimb_id):
+@reimb.route('/ers_user/<string:ers_user_id>/reimburse/<string:reimb_id>', methods=['GET'])
+def get_reimb_by_reimb_id(ers_user_id, reimb_id):
     if user_logged_in:
         pass
     else:
@@ -77,8 +77,8 @@ def get_reimb_by_reimb_id(reimb_id):
         return make_response(jsonify(responseObject)), 202
 
 
-@reimb.route('/ers_user/<string:ers_user_id>/reimburse/<string:reimb_id', methods=['PULL'])
-def update_reimb_by_reimb_id():
+@reimb.route('/ers_user/<string:ers_user_id>/reimburse/<string:reimb_id>', methods=['PULL'])
+def update_reimb_by_reimb_id(ers_user_id, reimb_id):
     if user_logged_in:
         pass
     else:
@@ -89,8 +89,8 @@ def update_reimb_by_reimb_id():
         return make_response(jsonify(responseObject)), 202
 
 
-@reimb.route('/ers_user/<string:ers_user_id>/reimburse/<string:reimb_id', methods=['DELETE'])
-def delete_reimb_by_reimb_id():
+@reimb.route('/ers_user/<string:ers_user_id>/reimburse/<string:reimb_id>', methods=['DELETE'])
+def delete_reimb_by_reimb_id(ers_user_id, reimb_id):
     if user_logged_in:
         pass
     else:

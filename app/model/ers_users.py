@@ -1,12 +1,7 @@
 import jwt
 import datetime
-from flask_bcrypt import Bcrypt
 import config
-from app import create_app
-
-bcrypt = Bcrypt(create_app())
-
-app = create_app()
+from app import bcrypt
 
 
 class ErsUser:
@@ -70,7 +65,7 @@ class ErsUser:
             return payload.get('sub'), payload.get('role')
 
         except jwt.ExpiredSignatureError:
-            return 'Signature expired. Please log in again.'
+            return 'Signature expired. Please log in again.', None
         except jwt.InvalidTokenError:
-            return 'Invalid token. Please log in again.'
+            return 'Invalid token. Please log in again.', None
 

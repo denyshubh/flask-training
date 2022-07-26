@@ -1,9 +1,7 @@
 from flask import Blueprint, request, session, make_response, jsonify, render_template
 from flask_bcrypt import Bcrypt
 from app.service.ers_users_service import Ers_UserService
-from app import create_app
-bcrypt = Bcrypt(create_app())
-
+from app import bcrypt
 
 er = Blueprint("ers_user_controller", __name__)
 Ers_userService = Ers_UserService()
