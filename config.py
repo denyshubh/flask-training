@@ -16,8 +16,7 @@ class BaseConfig:
 
     Return Type: This method returns a string that denotes the value of the environment variable key. In case key does not exists it returns the value of default paramete
     '''
-
-    SECRET_KEY = os.getenv('SECRET_KEY', 'asdfghjkl123456')
+    SECRET_KEY = os.getenv('SECRET_KEY', os.urandom(32))
     DEBUG = False
     BCRYPT_LOG_ROUNDS = 13
     SESSION_TYPE = 'filesystem'
