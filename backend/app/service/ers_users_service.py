@@ -10,7 +10,8 @@ class Ers_UserService:
     def add_ers_users(self, ers_users_obj):
 
         if self.user_validate(ers_users_obj):
-            added_user_obj = self.user_dao.add_user(ers_users_obj)
+            print('Valid User Data!')
+            added_user_obj = self.ers_users_dao.add_user(ers_users_obj)
             return added_user_obj
         else:
             print('Invalid User Data')
@@ -33,16 +34,16 @@ class Ers_UserService:
     def user_validate(self, ers_users_obj):
         try:
             registration_error = RegistrationError()
-            if not ers_users_obj.username.isalnum():
+            if not ers_users_obj['username'].isalnum():
                 registration_error.messages.append("Username must only contain alphanumeric characters")
 
-            if len(ers_users_obj.username) < 6 or len(ers_users_obj.username) > 20:
+            if len(ers_users_obj['username']) < 6 or len(ers_users_obj['username']) > 20:
                 registration_error.messages.append("Username must be between 6 and 20 characters in length inclusive")
 
-            if self.ers_users_dao.get_user_by_username(ers_users_obj.username) is not None:
+            if self.ers_users_dao.get_user_by_username(ers_users_obj['username']) is not None:
                 registration_error.messages.append("Username is already taken")
 
-            if ers_users_obj.username == '':
+            if ers_users_obj['username'] == '':
                 registration_error.messages.append("Username must not be blank")
 
             alphabetical_characters = "abcdefghijklmnopqrstuvwxyz"
@@ -53,7 +54,7 @@ class Ers_UserService:
             upper_alpha_count = 0
             special_character_count = 0
             numeric_character_count = 0
-            for char in ers_users_obj.password:
+            for char in ers_users_obj.get('password'):
                 if char in alphabetical_characters:
                     lower_alpha_count += 1
 
@@ -78,54 +79,54 @@ class Ers_UserService:
             if numeric_character_count == 0:
                 registration_error.messages.append("Password must have at least 1 numeric character")
 
-            if len(ers_users_obj.password) < 6 or len(ers_users_obj.password) > 20:
+            if len(ers_users_obj.get('password')) < 6 or len(ers_users_obj.get('password')) > 20:
                 registration_error.messages.append("Password must be between 6 and 20 characters in length inclusive")
 
-            if len(ers_users_obj.password) != lower_alpha_count + upper_alpha_count + special_character_count + numeric_character_count:
+            if len(ers_users_obj.get('password')) != lower_alpha_count + upper_alpha_count + special_character_count + numeric_character_count:
                 registration_error.messages.append("Password must contain only alphanumeric and special characters")
 
             # First Name validation
-            if not ers_users_obj.first_name.isalpha():
+            if not ers_users_obj.get('first_name').isalpha():
                 registration_error.messages.append("First name must contain only alphabetical characters")
 
-            if len(ers_users_obj.first_name) < 2 or len(ers_users_obj.first_name) > 100:
+            if len(ers_users_obj.get('first_name')) < 2 or len(ers_users_obj.get('first_name')) > 100:
                 registration_error.messages.append("Length of first name must be between 2 and 100 characters inclusive")
 
-            if ers_users_obj.first_name == '':
+            if ers_users_obj.get('first_name') == '':
                 registration_error.messages.append("First_name must not be blank")
 
             # Last Name validation
-            if not ers_users_obj.last_name.isalpha():
+            if not ers_users_obj.get('last_name').isalpha():
                 registration_error.messages.append("Last name must contain only alphabetical characters")
 
-            if len(ers_users_obj.last_name) < 2 or len(ers_users_obj.last_name) > 100:
+            if len(ers_users_obj.get('last_name')) < 2 or len(ers_users_obj.get('last_name')) > 100:
                 registration_error.messages.append("Length of last name must be between 2 and 100 characters inclusive")
 
-            if ers_users_obj.last_name == '':
+            if ers_users_obj.get('last_name') == '':
                 registration_error.messages.append("Last_name must not be blank")
 
             # Gender validation
-            if not (ers_users_obj.gender == "male" or ers_users_obj.gender == "female" or ers_users_obj.gender == "other"):
+            if not (ers_users_obj.get('gender') == "male" or ers_users_obj.get('gender') == "female" or ers_users_obj.get('gender') == "other"):
                 registration_error.messages.append("Gender must be male, female, or other")
 
-            if ers_users_obj.first_name == '':
+            if ers_users_obj.get('first_name') == '':
                 registration_error.messages.append("Gender must be selected")
 
             # Phone number validation
-            if not re.fullmatch("\d{3}-\d{3}-\d{4}", ers_users_obj.phone_number):
+            if not re.fullmatch("\d{3}-\d{3}-\d{4}", ers_users_obj.get('phone_number')):
                 registration_error.messages.append("Phone number must match the format XXX-XXX-XXXX")
 
-            if ers_users_obj.phone_number == '':
+            if ers_users_obj.get('phone_number') == '':
                 registration_error.messages.append("Phone_number must not be blank")
 
             # Email address validation
-            if not re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', ers_users_obj.email_address):
+            if not re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', ers_users_obj.get('email_address')):
                 registration_error.messages.append("Email address must match format username@domain")
 
-            if self.user_dao.get_user_by_email(ers_users_obj.email_address) is not None:
+            if self.ers_users_dao.get_user_by_email(ers_users_obj.get('email_address')) is not None:
                 registration_error.messages.append("Email address is already taken")
 
-            if ers_users_obj.email_address == '':
+            if ers_users_obj.get('email_address') == '':
                 registration_error.messages.append("email_address must not be blank")
 
             # If error messages exist in the exception object, raise the exception

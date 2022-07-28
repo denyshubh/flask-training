@@ -33,8 +33,8 @@ def create_table():
         """
     )
     try:
-        with psycopg.connect(host="postgres.cluster-cbjg0re6g6z4.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                password="uc9QhyPuEy07IQeIhb12") as conn:
+        with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
+                                password="eACdovWC569igRYGoPg8") as conn:
               with conn.cursor() as cur:
                 for command in commands:
                     cur.execute(command, binary=True)

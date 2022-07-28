@@ -32,8 +32,9 @@ function Register(props) {
     
     // const { username, password, role, first_name, last_name, gender, phone_number, email_address} = userInfo
 
-    const handleChange = (event) => {
-        console.log(event)
+    const handleChange = (event) => {  
+        // console.log(event.target.name)
+        // console.log(event.target.value)
         setUserInfo({ ...userInfo, [event.target.name]: event.target.value });
     };
 
@@ -69,6 +70,7 @@ function Register(props) {
                                       type="text" 
                                       placeholder="Your Username"
                                       value={userInfo.username}
+                                      name='username'
                                       autoFocus="" 
                                       onChange={handleChange}/>
                                 </div>
@@ -81,6 +83,7 @@ function Register(props) {
                                       type="password" 
                                       placeholder="Your Password"
                                       value={userInfo.password}
+                                      name='password'
                                       onChange={handleChange}/>
                                 </div>
                             </div>
@@ -91,40 +94,39 @@ function Register(props) {
                                       className="input is-large" 
                                       type="email" 
                                       placeholder="Your Email"
+                                      name='email_address'
                                       value={userInfo.email_address}
                                       onChange={handleChange}/>
                                 </div>
                             </div>
 
                             <div className="field">
-                                <div className="control">
-                                    <label>
-                                        Select Your Role:
-                                        <select value={userInfo.role} onChange={handleChange}>
-                                            <option value="employee">Employee</option>
-                                            <option value="finance_manager">Finance Manager</option>
-                                        </select>
-                                    </label>
+                                <div className="control select">
+                                    <select name='role' value={userInfo.role} onChange={handleChange} className="input is-large">
+                                        <option value="select_role">Select Role</option>
+                                        <option value="employee">Employee</option>
+                                        <option value="finance_manager">Finance Manager</option>
+                                    </select>
                                 </div>
                             </div>
 
                             
                             <div className="field">
-                                <div className="control">
-                                    <label>
-                                        Gender:
-                                        <select value={userInfo.gender} onChange={handleChange}>
+                                <div className="control select">
+                                        <select name='gender' value={userInfo.gender} onChange={handleChange} className="input is-large">
+                                            <option value="gender">Select Gender</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
                                             <option value="other">Other</option>
                                         </select>
-                                    </label>
+
                                 </div>
                             </div>
                             
                             <div className="field">
                                 <div className="control">
                                     <input 
+                                      name='first_name'
                                       className="input is-large" 
                                       type="text" 
                                       placeholder="First Name"
@@ -137,6 +139,7 @@ function Register(props) {
                             <div className="field">
                                 <div className="control">
                                     <input 
+                                      name='last_name'
                                       className="input is-large" 
                                       type="text" 
                                       placeholder="Last Name"
@@ -149,8 +152,9 @@ function Register(props) {
                             <div className="field">
                                 <div className="control">
                                     <input 
+                                      name='phone_number'
                                       className="input is-large" 
-                                      type="password" 
+                                      type="text" 
                                       placeholder="US Phone Number"
                                       value={userInfo.phone_number}
                                       onChange={handleChange}/>

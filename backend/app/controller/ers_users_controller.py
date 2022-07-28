@@ -84,7 +84,7 @@ def add_ers_user():
     ers_user_obj = request.get_json()
     # check if user already exists
     user = Ers_userService.get_user_by_username(ers_user_obj.get('username'))  # either None ot ErsUser object
-    if not user:
+    if user is None:
         try:
             user = Ers_userService.add_ers_users(ers_user_obj)  # either None ot ErsUser object
             # generate the auth token

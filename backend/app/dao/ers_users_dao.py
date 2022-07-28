@@ -9,10 +9,29 @@ class Ers_UserDao:
         command = "SELECT * from ERS_Users WHERE username = %s"
 
         try:
-            with psycopg.connect(host="postgres.cluster-cbjg0re6g6z4.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="uc9QhyPuEy07IQeIhb12") as conn:
+            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
+                                 password="eACdovWC569igRYGoPg8") as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [username], binary=True)
+
+                    ers_user_info = cur.fetchone()
+
+                    if ers_user_info:
+                        body = ErsUser(*ers_user_info)
+                        return body
+
+        except Exception as e:
+            print(e, 'Connection Issue!!!')
+        return None
+
+    def get_user_by_email(self, email):
+        command = "SELECT * from ERS_Users WHERE email_address = %s"
+
+        try:
+            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
+                                 password="eACdovWC569igRYGoPg8") as conn:
+                with conn.cursor() as cur:
+                    cur.execute(command, [email], binary=True)
 
                     ers_user_info = cur.fetchone()
 
@@ -28,8 +47,8 @@ class Ers_UserDao:
     def get_user_by_id(self, user_id):
         command = "SELECT * from ERS_Users WHERE user_id = %s"
         try:
-            with psycopg.connect(host="postgres.cluster-cbjg0re6g6z4.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="uc9QhyPuEy07IQeIhb12") as conn:
+            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
+                                 password="eACdovWC569igRYGoPg8") as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [user_id], binary=True)
                     ers_user_info = cur.fetchone()
@@ -45,16 +64,17 @@ class Ers_UserDao:
 
     def add_user(self, ers_user_obj):
         command = (
-            "INSERT INTO ERS_Users VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *"
+            "INSERT INTO ERS_Users(username, password, first_name, last_name, gender, role, phone_number, email_address) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *"
         )
+
         try:
-            with psycopg.connect(host="postgres.cluster-cbjg0re6g6z4.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="uc9QhyPuEy07IQeIhb12") as conn:
+            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
+                                 password="eACdovWC569igRYGoPg8") as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, (
                         ers_user_obj.get('username'),
                         ers_user_obj.get('password'),
-                        ers_user_obj.get('middle_initial'),
+                        ers_user_obj.get('first_name'),
                         ers_user_obj.get('last_name'),
                         ers_user_obj.get('gender'),
                         ers_user_obj.get('role'),
