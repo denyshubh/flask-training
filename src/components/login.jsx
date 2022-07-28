@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from "axios";
+import { toast } from 'react-toastify';
+
 
 function Login(props) {
     const [username, setUsername] = useState("");
@@ -17,11 +19,13 @@ function Login(props) {
       .then((response) => {
         console.log(response)
         props.setToken(response.data.auth_token)
+        toast.error("An unexpected error occurrred.");
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)
           console.log(error.response.status)
           console.log(error.response.headers)
+          toast.error(error.response.data.message);
           }
       })
 

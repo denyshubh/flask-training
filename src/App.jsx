@@ -4,6 +4,8 @@ import Profile from './components/profile'
 import Logout from './components/logout'
 import useToken from './components/useToken'
 import './App.css'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { token, removeToken, setToken } = useToken();
@@ -11,6 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
+        <ToastContainer />
         {!token && token!=="" &&token!== undefined?  
         <Login setToken={setToken} />
         :(

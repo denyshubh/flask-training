@@ -9,8 +9,8 @@ class Ers_UserDao:
         command = "SELECT * from ERS_Users WHERE username = %s"
 
         try:
-            with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
-                                 password="zxcvbnm") as conn:
+            with psycopg.connect(host="postgres.cluster-cbjg0re6g6z4.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
+                                 password="uc9QhyPuEy07IQeIhb12") as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [username], binary=True)
 
@@ -21,15 +21,15 @@ class Ers_UserDao:
                         return body
 
         except Exception as e:
-            print(e)
+            print(e, 'Connection Issue!!!')
         return None
 
 
     def get_user_by_id(self, user_id):
         command = "SELECT * from ERS_Users WHERE user_id = %s"
         try:
-            with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
-                                 password="zxcvbnm") as conn:
+            with psycopg.connect(host="postgres.cluster-cbjg0re6g6z4.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
+                                 password="uc9QhyPuEy07IQeIhb12") as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [user_id], binary=True)
                     ers_user_info = cur.fetchone()
@@ -48,8 +48,8 @@ class Ers_UserDao:
             "INSERT INTO ERS_Users VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *"
         )
         try:
-            with psycopg.connect(host="localhost", port="5432", dbname="postgres", user="postgres",
-                                 password="zxcvbnm") as conn:
+            with psycopg.connect(host="postgres.cluster-cbjg0re6g6z4.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
+                                 password="uc9QhyPuEy07IQeIhb12") as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, (
                         ers_user_obj.get('username'),

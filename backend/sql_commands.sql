@@ -6,8 +6,8 @@ CREATE TABLE ERS_Users (
 	first_name VARCHAR(100) NOT NULL,
 	last_name VARCHAR(100) NOT NULL,
 	gender VARCHAR(20) NOT NULL,
-	phone_number VARCHAR (12) NOT null CHECK(phone SIMILAR TO '[0-9]{3}-[0-9]{3}-[0-9]{4}'),
-    email_address VARCHAR (255) unique NOT null check (email like '%_@__%.__%')
+	phone_number VARCHAR (12) NOT null CHECK(phone_number SIMILAR TO '[0-9]{3}-[0-9]{3}-[0-9]{4}'),
+    email_address VARCHAR (255) unique NOT null check (email_address like '%_@__%.__%')
 
 );
 
