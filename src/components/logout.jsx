@@ -23,13 +23,12 @@ function Logout(props) {
         }
     })}
 
+    logMeOut()
+
     return(
-      <button 
-        className="button is-block is-info is-large is-fullwidth"
-        onClick={logMeOut}>
-          Logout 
-        <i className="fa fa-sign-in" aria-hidden="true"></i>
-      </button>
+      <h1>
+        Please Login To View Data
+      </h1>
     )
 }
 

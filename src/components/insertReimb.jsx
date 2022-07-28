@@ -80,6 +80,7 @@ function InsertReimb(props) {
                             <div className="field">
                                 <div className="control select">
                                         <select name='type' value={reimbInfo.type} onChange={handleChange} className="input is-large">
+                                            <option value="Type">Type of Reimbursement</option>
                                             <option value="Lodging">Lodging</option>
                                             <option value="Travel">Travel</option>
                                             <option value="Food">Food</option>

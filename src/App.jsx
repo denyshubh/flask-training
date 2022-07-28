@@ -5,6 +5,7 @@ import Logout from './components/logout'
 import Register from './components/register'
 import useToken from './components/useToken'
 import InsertReimb from './components/insertReimb'
+import NavBar from './components/NavBar'
 import './App.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,6 +16,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
+        <NavBar token={token}/>
         <ToastContainer />
         {!token && token!=="" &&token!== undefined? 
         <Routes>

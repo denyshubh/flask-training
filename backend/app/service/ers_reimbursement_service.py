@@ -7,11 +7,14 @@ class Ers_ReimburseService:
         self.ers_reimb_dao = ErsReimbDao()
     
     def get_all_reimburse(self):
-        reimburse = self.ers_reimb_dao.get_all_reimb()  # list of reimburse or None
-        if reimburse is None:
+        reimburses = self.ers_reimb_dao.get_all_reimb()  # list of reimburse or None
+        data = []
+        if reimburses is None:
             print(f'No reimbursement done by any employee')
             return None
-        return reimburse
+        for reimb in reimburses:
+            data.append(reimb.to_dict())
+        return data
 
     def get_reimburse_by_id(self, ers_user_id):
         reimburse = self.ers_reimb_dao.get_reimb_by_id(ers_user_id)  # list of reimburse or None

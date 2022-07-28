@@ -39,7 +39,7 @@ def get_reimb():
         if reimb_data:
             responseObject = {
                 'status': 'success',
-                'data': reimb_data,
+                'data': reimb_data.to_dict,
                 'message': 'Success'
             }
             return make_response(jsonify(responseObject)), 200
