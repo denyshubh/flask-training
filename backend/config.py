@@ -21,4 +21,4 @@ class BaseConfig:
     BCRYPT_LOG_ROUNDS = 13
     SESSION_TYPE = 'filesystem'
     JWT_SECRET_KEY = os.getenv('SECRET_KEY', os.urandom(32))
-    JWT_ACCESS_TOKEN_EXPIRES =  timedelta(hours=1)
+    JWT_ACCESS_TOKEN_EXPIRES = False

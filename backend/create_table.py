@@ -1,4 +1,7 @@
 import psycopg
+HOST = 'postgres.cluster-cbdtjy2tmxfd.us-east-1.rds.amazonaws.com'
+PWD = 'KT3FfmQtHWUIuqOW8bi3'
+
 def create_table():
     commands = (
         """
@@ -33,8 +36,8 @@ def create_table():
         """
     )
     try:
-        with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                password="eACdovWC569igRYGoPg8") as conn:
+        with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                password=PWD) as conn:
               with conn.cursor() as cur:
                 for command in commands:
                     cur.execute(command, binary=True)

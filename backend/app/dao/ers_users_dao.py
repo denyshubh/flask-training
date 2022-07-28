@@ -2,6 +2,8 @@ import psycopg
 
 from app.model.ers_users import ErsUser
 
+HOST = 'postgres.cluster-cbdtjy2tmxfd.us-east-1.rds.amazonaws.com'
+PWD = 'KT3FfmQtHWUIuqOW8bi3'
 
 class Ers_UserDao:
 
@@ -9,8 +11,8 @@ class Ers_UserDao:
         command = "SELECT * from ERS_Users WHERE username = %s"
 
         try:
-            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="eACdovWC569igRYGoPg8") as conn:
+            with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                 password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [username], binary=True)
 
@@ -28,8 +30,8 @@ class Ers_UserDao:
         command = "SELECT * from ERS_Users WHERE email_address = %s"
 
         try:
-            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="eACdovWC569igRYGoPg8") as conn:
+            with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                 password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [email], binary=True)
 
@@ -47,8 +49,8 @@ class Ers_UserDao:
     def get_user_by_id(self, user_id):
         command = "SELECT * from ERS_Users WHERE user_id = %s"
         try:
-            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="eACdovWC569igRYGoPg8") as conn:
+            with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                 password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [user_id], binary=True)
                     ers_user_info = cur.fetchone()
@@ -68,8 +70,8 @@ class Ers_UserDao:
         )
 
         try:
-            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="eACdovWC569igRYGoPg8") as conn:
+            with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                 password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, (
                         ers_user_obj.get('username'),

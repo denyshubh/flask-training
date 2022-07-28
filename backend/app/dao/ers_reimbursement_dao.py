@@ -2,14 +2,16 @@ import psycopg
 from datetime import date
 from app.model.ers_reimbursement import ErsReimburse
 
+HOST = 'postgres.cluster-cbdtjy2tmxfd.us-east-1.rds.amazonaws.com'
+PWD = 'KT3FfmQtHWUIuqOW8bi3'
 
 class ErsReimbDao:
 
     def get_reimb_by_id(self, user_id):
         command = "select * from ERS_REIMBURSEMENT WHERE user_id=(%s);"
         try:
-            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="eACdovWC569igRYGoPg8") as conn:
+            with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                 password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [user_id], binary=True)
                     data = cur.fetchall()  # fetching all rows from customer's table
@@ -25,8 +27,8 @@ class ErsReimbDao:
     def get_all_reimb(self):
         command = "select * from ERS_REIMBURSEMENT;"
         try:
-            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="eACdovWC569igRYGoPg8") as conn:
+            with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                 password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, binary=True)
                     data = cur.fetchall()  # fetching all rows from customer's table
@@ -43,8 +45,8 @@ class ErsReimbDao:
     def get_reimb(self, status):
         command = f"select * from ERS_REIMBURSEMENT WHERE status = (pending, approved, denied)"
         try:
-            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="eACdovWC569igRYGoPg8") as conn:
+            with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                 password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [status], binary=True)
                     data = cur.fetchall()  # fetching all rows from customer's table
@@ -60,8 +62,8 @@ class ErsReimbDao:
     def get_reimb_by_reimb_id(self, reimb_id):
         command = "select * from ERS_REIMBURSEMENT WHERE reimb_id=(%s);"
         try:
-            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="eACdovWC569igRYGoPg8") as conn:
+            with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                 password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, [reimb_id], binary=True)
                     data = cur.fetchall()  # fetching all rows from customer's table
@@ -82,8 +84,8 @@ class ErsReimbDao:
             '''
         )
         try:
-            with psycopg.connect(host="postgres.cluster-cvfsgamjiqqy.us-east-1.rds.amazonaws.com", port="5432", dbname="postgres", user="postgres",
-                                 password="eACdovWC569igRYGoPg8") as conn:
+            with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
+                                 password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, (
                         date.today(),

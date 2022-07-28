@@ -19,7 +19,7 @@ def refresh_expiring_jwts(response):
         exp_timestamp = get_jwt().get("exp")
         now = datetime.now(timezone.utc)
         target_timestamp = datetime.timestamp(now + timedelta(days = 2))
-        if target_timestamp > exp_timestamp:
+        if exp_timestamp and target_timestamp > exp_timestamp:
             auth_token = create_access_token(identity=get_jwt_identity())
             data = response.get_json()
             print('Data in After Request is ', data)
