@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from "axios";
 import { toast } from 'react-toastify';
-
+import { Link } from "react-router-dom";
 
 function Login(props) {
     const [username, setUsername] = useState("");
@@ -87,9 +87,8 @@ function Login(props) {
                       </form>
                   </div>
                   <p className="has-text-grey">
-                      <a href="../">Register</a> &nbsp;·&nbsp;
-                      <a href="../">Forgot Password</a> &nbsp;·&nbsp;
-                      <a href="../">Need Help?</a>
+                        <Link to='/register'>Register</Link>
+                        <Link to='/help'>Need Help ?</Link>
                   </p>
               </div>
           </div>

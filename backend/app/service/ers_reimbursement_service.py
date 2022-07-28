@@ -27,11 +27,10 @@ class Ers_ReimburseService:
             return None
         return reimburse
 
-    def add_reimbursement(self, ers_users_obj, ):
-
-        if self.reimb_validate(reimb_obj):
-            add_reimb_obj = self.ers_reimb_dao.add_reimb(reimb_obj)
-            return reimb_obj
+    def add_reimbursement(self, reimb_obj, reimb_author):
+        add_reimb_obj = self.ers_reimb_dao.add_reimbursement(reimb_obj, reimb_author)
+        if add_reimb_obj:
+            return add_reimb_obj
         else:
-            print('Invalid User Data')
-            return {'msg': 'Please Enter Valid User Data', 'status': 404}
+            print('Reimbursement Data Not Uploaded')
+            return None

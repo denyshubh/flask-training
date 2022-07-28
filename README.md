@@ -1,5 +1,5 @@
 # React + Flask Application
-Use ```npx create-react-app my-app``` to generate frontend code 
+Use ```npx create-react-app er-system``` to generate frontend code 
 This is an application which contains a connected flask backend to a react frontend
 
 windows
@@ -37,7 +37,7 @@ Return to the base directory and run: `npm install` before running the scripts b
 
 Then, run `npm run start-backend` to start the flask backend server.
 
-Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
+Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
 Next, run `npm start` to start the frontend section of the application.
 

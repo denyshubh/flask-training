@@ -2,8 +2,8 @@ import psycopg
 
 from app.model.ers_users import ErsUser
 
-HOST = 'postgres.cluster-cbdtjy2tmxfd.us-east-1.rds.amazonaws.com'
-PWD = 'KT3FfmQtHWUIuqOW8bi3'
+HOST = 'localhost'
+PWD = 'zxcvbnm'
 
 class Ers_UserDao:
 

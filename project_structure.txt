@@ -1,0 +1,11 @@
+backend - FLASK CODE
+src - Frontend
+package.json - configuration [
+
+    how to run my flask app
+    how to start my frintend
+]
+
+public - frontend, image, css
+
+

@@ -1,6 +1,6 @@
 import psycopg
-HOST = 'postgres.cluster-cbdtjy2tmxfd.us-east-1.rds.amazonaws.com'
-PWD = 'KT3FfmQtHWUIuqOW8bi3'
+HOST = 'localhost'
+PWD = 'zxcvbnm'
 
 def create_table():
     commands = (
@@ -23,15 +23,16 @@ def create_table():
             reimb_id SERIAL PRIMARY KEY,
             reimbursement_amount NUMERIC NOT NULL,
             submitted TIMESTAMP(20) NOT NULL,
-            resolved TIMESTAMP(30) NOT NULL,
+            resolved TIMESTAMP(30),
             status text NOT NULL CHECK( status in ('pending','approved','denied')),
             type text NOT NULL CHECK(type in ('Lodging','Travel','Food','Other')),
             description VARCHAR(100) NOT NULL,
-            receipt BYTEA NOT NULL,
-            reimb_author SERIAL,
+            receipt text NOT NULL,
+            reimb_author SERIAL NOT NULL,
             reimb_resolver SERIAL,
             CONSTRAINT fk_reimb_author FOREIGN KEY(reimb_author) REFERENCES ERS_Users(user_id),
             CONSTRAINT fk_reimb_resolver FOREIGN KEY(reimb_resolver) REFERENCES ERS_Users(user_id)
+        );
         );
         """
     )

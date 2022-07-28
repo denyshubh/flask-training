@@ -2,8 +2,8 @@ import psycopg
 from datetime import date
 from app.model.ers_reimbursement import ErsReimburse
 
-HOST = 'postgres.cluster-cbdtjy2tmxfd.us-east-1.rds.amazonaws.com'
-PWD = 'KT3FfmQtHWUIuqOW8bi3'
+HOST = 'localhost'
+PWD = 'zxcvbnm'
 
 class ErsReimbDao:
 
@@ -76,11 +76,12 @@ class ErsReimbDao:
             print(e)
         return None
 
-    def insert_reimb(self, user_id, ers_reimbursement):
+    def add_reimbursement(self, reimb_data, reimb_author):
+        
         command = (
             '''
-            insert into ers_reimbursement(submitted, resolved, description, status, receipt, type, user_id) 
-            VALUES (%s,%s,%s,%s,%s,%s,%s) RETURNING *;
+            insert into ers_reimbursement(reimbursement_amount, submitted, description, status, receipt, type, reimb_author, reimb_resolver) 
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s) RETURNING *;
             '''
         )
         try:
@@ -88,17 +89,19 @@ class ErsReimbDao:
                                  password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, (
+                        reimb_data.get('reimbursement_amount'),
                         date.today(),
-                        date.today(),
-                        ers_reimbursement.get('description'),
-                        ers_reimbursement.get('status'),
-                        ers_reimbursement.get('receipt'),
-                        ers_reimbursement.get('type'),
-                        user_id
+                        reimb_data.get('description'),
+                        'pending',
+                        reimb_data.get('receipt'),
+                        reimb_data.get('type'),
+                        reimb_author,
+                        1
                     ))
                     conn.commit()
                     inserted_row = cur.fetchone()
-                    return ErsReimburse(*inserted_row)
+                    if inserted_row:
+                        return ErsReimburse(*inserted_row)
 
         except Exception as e:
             print(e)

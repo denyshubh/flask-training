@@ -4,6 +4,7 @@ import Reimbersement from './components/reimbersement'
 import Logout from './components/logout'
 import Register from './components/register'
 import useToken from './components/useToken'
+import InsertReimb from './components/insertReimb'
 import './App.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +26,7 @@ function App() {
             <Routes>
               <Route  exact path="/logout" element={<Logout token={token} removeToken={removeToken}/>}></Route>
               <Route exact path="/reimburse" element={<Reimbersement token={token} setToken={setToken}/>}></Route>
+              <Route exact path="/reimburse/insert" element={<InsertReimb token={token} setToken={setToken}/>}></Route>
             </Routes>
           </>
         )}

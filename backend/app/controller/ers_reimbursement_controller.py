@@ -67,17 +67,37 @@ def get_reimb():
             return make_response(jsonify(responseObject)), 202
 
 
-@reimb.route('/reimburse', methods=['POST'])
-@jwt_required()
+@reimb.route('/reimburse/insert', methods=['POST'])
+# @jwt_required()
 def add_reimb():
-    if user_logged_in:
-        pass
-    else:
-        responseObject = {
-            'status': 'success',
-            'message': 'User not logged in. Please login',
+    request_body_dict = request.get_json()
+
+    try:
+        # fetch the user data
+        # reimb_author = get_jwt_identity()[0]  # user_id of current user
+        reimb_author = 1
+        reimb_data = reimb_service.add_reimbursement(request_body_dict, reimb_author)  # fetching user details from database
+        if reimb_data is None:
+            response_object = {
+                'status': 'failed',
+                'message': 'Not able to add reimbursement data',
+            }
+            return make_response(jsonify(response_object)), 204
+        else:
+            response_object = {
+                'status': 'success',
+                'message': 'data upload success!',
+                'data': reimb_data.to_dict()
+            }
+            return make_response(jsonify(response_object)), 200
+    except Exception as e:
+        print(e)
+        response_object = {
+            'status': 'fail',
+            'message': 'Try again'
         }
-        return make_response(jsonify(responseObject)), 202
+        return make_response(jsonify(response_object)), 500
+
 
 
 @reimb.route('/ers_user/<string:ers_user_id>/reimburse', methods=['GET'])
