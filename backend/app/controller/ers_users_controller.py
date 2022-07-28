@@ -1,24 +1,34 @@
-from flask import Blueprint, request, session, make_response, jsonify, render_template
-from flask_bcrypt import Bcrypt
+from flask import Blueprint, request, session, make_response, jsonify
 from app.service.ers_users_service import Ers_UserService
 from app import bcrypt
+import json
+from datetime import datetime, timedelta, timezone
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity
+
 
 er = Blueprint("ers_user_controller", __name__)
 Ers_userService = Ers_UserService()
 
+@er.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(hour=1))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token 
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original respone
+        return response
 
 @er.route('/')
 def index():
     return render_template('login.html')
-
-
-@er.route('/login_status', methods=['GET'])
-def login_status():
-    if session.get('auth_token'):
-        return {"message": "You are logged in", "auth_token": session.get('auth_token')}, 200
-    else:
-        return {"message": "You are not logged in"}, 202
-
 
 @er.route('/login', methods=['POST'])
 def login():
@@ -35,14 +45,12 @@ def login():
                 user.password,   # this password we are getting from database
                 pwd  # This password is entered by user
         ):
-            auth_token = user.encode_auth_token(user.user_id, user.role)  # jason web token
-            session['auth_token'] = auth_token
-
+            auth_token = create_access_token(identity=[user.user_id, user.role])  # jason web token
             if auth_token:
                 responseObject = {
                     'status': 'success',
                     'message': 'Successfully logged in.',
-                    'auth_token': auth_token.decode()
+                    'auth_token': auth_token
                 }
                 return make_response(jsonify(responseObject)), 200
         else:
@@ -50,7 +58,7 @@ def login():
                 'status': 'fail',
                 'message': 'Invalid username or password'
             }
-            return make_response(jsonify(responseObject)), 404
+            return make_response(jsonify(responseObject)), 401
     except Exception as e:
         print(e)
         responseObject = {
@@ -61,10 +69,12 @@ def login():
 
 
 @er.route('/logout', methods=['POST'])
+@jwt_required()
 def logout():
-    session.clear()
-    return {"message": "Successfully logged out"}, 200
-
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response, 201
+    
 
 @er.route('/ers_users', methods=['POST'])
 def add_ers_user():
@@ -98,6 +108,7 @@ def add_ers_user():
 
 
 @er.route('/ers_users/<string:user_id>', methods=['GET'])
+@jwt_required()
 def get_ers_user(user_id):
     user = Ers_userService.get_user_by_id(user_id)
     if user:
