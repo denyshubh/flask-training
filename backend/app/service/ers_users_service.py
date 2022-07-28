@@ -1,25 +1,11 @@
 import re
-
 from app.dao.ers_users_dao import Ers_UserDao
-from app.exception.exception_login import LoginError
 from app.exception.exception_registration import RegistrationError
 
 
 class Ers_UserService:
     def __init__(self):
         self.ers_users_dao = Ers_UserDao()
-
-    def login(self, username, password):
-        try:
-            ers_user_obj = self.ers_users_dao.login(username, password)  # user object or None
-
-            if ers_user_obj is None:
-                raise LoginError("Invalid username and/or password")
-
-            return ers_user_obj.to_dict()
-        except Exception as e:
-            print(e)
-        return None
 
     def add_ers_users(self, ers_users_obj):
 
@@ -31,14 +17,14 @@ class Ers_UserService:
             return {'msg': 'Please Enter Valid User Data', 'status': 404}
 
     def get_user_by_id(self, user_id):
-        user = self.Ers_UserDao.get_user_by_id(user_id)
+        user = self.ers_users_dao.get_user_by_id(user_id)
         if user is None:
             print(f'User with id {user_id} does not exists')
             return None
         return user
 
     def get_user_by_username(self, username):
-        user = self.Ers_UserDao.get_user_by_username(username)
+        user = self.ers_users_dao.get_user_by_username(username)
         if user is None:
             print(f'User with username {username} does not exists')
             return None

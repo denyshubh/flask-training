@@ -1,7 +1,9 @@
-from flask import Blueprint, request, session, make_response, jsonify
+'''
+Managing User Login, Logout and Profile
+'''
+from flask import Blueprint, request, make_response, jsonify
 from app.service.ers_users_service import Ers_UserService
 from app import bcrypt
-import json
 from datetime import datetime, timedelta, timezone
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity,jwt_required, unset_jwt_cookies
 
@@ -11,6 +13,7 @@ Ers_userService = Ers_UserService()
 
 @er.after_request
 def refresh_expiring_jwts(response):
+    ''''''
     try:
         exp_timestamp = get_jwt().get("exp")
         now = datetime.now(timezone.utc)
@@ -18,9 +21,9 @@ def refresh_expiring_jwts(response):
         if target_timestamp > exp_timestamp:
             access_token = create_access_token(identity=get_jwt_identity())
             data = response.get_json()
-            if type(data) is dict:
-                data["access_token"] = access_token 
-                response.data = json.dumps(data)
+            if isinstance(data, dict):
+                data["access_token"] = access_token
+                response.data = jsonify(data)
         return response
     except (RuntimeError, KeyError):
         # Case where there is not a valid JWT. Just return the original respone
@@ -28,8 +31,8 @@ def refresh_expiring_jwts(response):
 
 @er.route('/login', methods=['POST'])
 def login():
+    ''''''
     request_body_dict = request.get_json()  # data entered by user
-    print(request_body_dict)
     username = request_body_dict['username']
     pwd = request_body_dict['password']
     # registser -- password inserted to database
@@ -68,6 +71,7 @@ def login():
 @er.route('/logout', methods=['POST'])
 @jwt_required()
 def logout():
+    ''''''
     response = jsonify({"msg": "logout successful"})
     unset_jwt_cookies(response)
     return response, 201
@@ -75,6 +79,7 @@ def logout():
 
 @er.route('/ers_users', methods=['POST'])
 def add_ers_user():
+    ''''''
     # register's a user in our database
     ers_user_obj = request.get_json()
     # check if user already exists
@@ -107,6 +112,7 @@ def add_ers_user():
 @er.route('/ers_users/<string:user_id>', methods=['GET'])
 @jwt_required()
 def get_ers_user(user_id):
+    ''''''
     user = Ers_userService.get_user_by_id(user_id)
     if user:
         return user.to_dict(), 201
