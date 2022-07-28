@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function Header(props) {
+function Logout(props) {
 
   function logMeOut() {
     axios({
@@ -18,13 +18,13 @@ function Header(props) {
     })}
 
     return(
-        <header className="App-header">
-            <img src='../logo.svg' className="App-logo" alt="logo" />
-            <button onClick={logMeOut}> 
-                Logout
-            </button>
-        </header>
+      <button 
+        className="button is-block is-info is-large is-fullwidth"
+        onClick={logMeOut}>
+          Logout 
+        <i className="fa fa-sign-in" aria-hidden="true"></i>
+      </button>
     )
 }
 
-export default Header;
+export default Logout;
