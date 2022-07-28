@@ -1,5 +1,5 @@
 import os
-
+from datetime import timedelta
 
 class BaseConfig:
     """Base configuration."""

@@ -1,6 +1,16 @@
 # React + Flask Application
-
+Use ```npx create-react-app my-app``` to generate frontend code 
 This is an application which contains a connected flask backend to a react frontend
+
+windows
+----------
+SET FLASK_APP=start
+SET FLASK_ENV=development
+
+Linux
+------------
+export FLASK_APP=start
+export FLASK_ENV=development
 
 ## Backend
 Step1: Enter the backend directory and create and activate your environment:

@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Login from './components/Login'
-import Profile from './components/Profile'
-import Header from './components/Header'
+import Login from './components/login'
+import Profile from './components/profile'
+import Header from './components/header'
 import useToken from './components/useToken'
 import './App.css'
 
@@ -25,3 +25,5 @@ function App() {
     </BrowserRouter>
   );
 }
+
+export default App;

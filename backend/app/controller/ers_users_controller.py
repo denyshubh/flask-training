@@ -3,7 +3,7 @@ from app.service.ers_users_service import Ers_UserService
 from app import bcrypt
 import json
 from datetime import datetime, timedelta, timezone
-from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity,jwt_required
 
 
 er = Blueprint("ers_user_controller", __name__)

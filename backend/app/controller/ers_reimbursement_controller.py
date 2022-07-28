@@ -6,7 +6,7 @@ reimb = Blueprint("ers_reimburse_controller", __name__)
 reimb_service = Ers_ReimburseService()
 
 user_logged_in = True # if session.get('auth_token') else False
-user_id, role = ErsUser.decode_auth_token('asdfghjkl123456')
+user_id, role = "ErsUser.decode_auth_token('asdfghjkl123456')", ""
 
 
 @reimb.route('/reimburse', methods=['GET'])
