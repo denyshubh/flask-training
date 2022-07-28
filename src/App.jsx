@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './components/login'
-import Profile from './components/profile'
+import Reimbersement from './components/reimbersement'
 import Logout from './components/logout'
 import Register from './components/register'
 import useToken from './components/useToken'
@@ -23,8 +23,8 @@ function App() {
         :(
           <>
             <Routes>
-              <Route  exact path="/logout" element={<Logout token={removeToken}/>}></Route>
-              <Route exact path="/profile" element={<Profile token={token} setToken={setToken}/>}></Route>
+              <Route  exact path="/logout" element={<Logout token={token} removeToken={removeToken}/>}></Route>
+              <Route exact path="/reimburse" element={<Reimbersement token={token} setToken={setToken}/>}></Route>
             </Routes>
           </>
         )}

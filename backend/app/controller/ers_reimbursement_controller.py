@@ -1,27 +1,74 @@
-from flask import Blueprint, session,  make_response, jsonify
+from flask import Blueprint, request, make_response, jsonify
 from app.service.ers_reimbursement_service import Ers_ReimburseService
-from app.model.ers_users import ErsUser
+from app import bcrypt
+from datetime import datetime, timedelta, timezone
+from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity,jwt_required, unset_jwt_cookies
 
 reimb = Blueprint("ers_reimburse_controller", __name__)
 reimb_service = Ers_ReimburseService()
 
-user_logged_in = True # if session.get('auth_token') else False
-user_id, role = "ErsUser.decode_auth_token('asdfghjkl123456')", ""
+@reimb.after_request
+def refresh_expiring_jwts(response):
+    ''''''
+    print('Refresh Expiring Token Called')
+    try:
+        exp_timestamp = get_jwt().get("exp")
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(days = 2))
+        if target_timestamp > exp_timestamp:
+            print(f"Identity: {get_jwt_identity}")
+            auth_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if isinstance(data, dict):
+                data["auth_token"] = auth_token
+                response.data = jsonify(data)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original response
+        print(response)
+        return response
 
 
 @reimb.route('/reimburse', methods=['GET'])
+@jwt_required()
 def get_reimb():
-    if user_logged_in:
-        pass
+    user_id, role = get_jwt_identity()
+    if role == 'employee':
+        # send employee reimbersement data
+        reimb_data = get_reimburse_by_id(user_id)
+        if reimb_data:
+            responseObject = {
+                'status': 'success',
+                'data': reimb_data,
+                'message': 'Success'
+            }
+            return make_response(jsonify(responseObject)), 200
+        else:
+            responseObject = {
+                'status': 'success',
+                'message': 'failed to get data'
+            }
+            return make_response(jsonify(responseObject)), 202
     else:
-        responseObject = {
-            'status': 'success',
-            'message': 'User not logged in. Please login',
-        }
-        return make_response(jsonify(responseObject)), 202
+        # send all employee reimbersement data
+        all_reimb_data = reimb_service.get_all_reimburse()
+        if all_reimb_data:
+            responseObject = {
+                'status': 'success',
+                'data': all_reimb_data,
+                'message': 'Success'
+            }
+            return make_response(jsonify(responseObject)), 200
+        else:
+            responseObject = {
+                'status': 'success',
+                'message': 'failed to get data'
+            }
+            return make_response(jsonify(responseObject)), 202
 
 
 @reimb.route('/reimburse', methods=['POST'])
+@jwt_required()
 def add_reimb():
     if user_logged_in:
         pass
@@ -34,6 +81,7 @@ def add_reimb():
 
 
 @reimb.route('/ers_user/<string:ers_user_id>/reimburse', methods=['GET'])
+@jwt_required()
 def get_reimb_by_user_id(ers_user_id):
     if user_logged_in:
         # only manager can get all data and current user can access only his own data
@@ -66,6 +114,7 @@ def get_reimb_by_user_id(ers_user_id):
 
 
 @reimb.route('/ers_user/<string:ers_user_id>/reimburse/<string:reimb_id>', methods=['GET'])
+@jwt_required()
 def get_reimb_by_reimb_id(ers_user_id, reimb_id):
     if user_logged_in:
         pass
@@ -78,6 +127,7 @@ def get_reimb_by_reimb_id(ers_user_id, reimb_id):
 
 
 @reimb.route('/ers_user/<string:ers_user_id>/reimburse/<string:reimb_id>', methods=['PULL'])
+@jwt_required()
 def update_reimb_by_reimb_id(ers_user_id, reimb_id):
     if user_logged_in:
         pass
@@ -90,6 +140,7 @@ def update_reimb_by_reimb_id(ers_user_id, reimb_id):
 
 
 @reimb.route('/ers_user/<string:ers_user_id>/reimburse/<string:reimb_id>', methods=['DELETE'])
+@jwt_required()
 def delete_reimb_by_reimb_id(ers_user_id, reimb_id):
     if user_logged_in:
         pass

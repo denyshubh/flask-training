@@ -14,15 +14,17 @@ Ers_userService = Ers_UserService()
 @er.after_request
 def refresh_expiring_jwts(response):
     ''''''
+    print('Refresh Expiring Token Called')
     try:
         exp_timestamp = get_jwt().get("exp")
         now = datetime.now(timezone.utc)
-        target_timestamp = datetime.timestamp(now + timedelta(hour=1))
+        target_timestamp = datetime.timestamp(now + timedelta(days = 2))
         if target_timestamp > exp_timestamp:
-            access_token = create_access_token(identity=get_jwt_identity())
+            auth_token = create_access_token(identity=get_jwt_identity())
             data = response.get_json()
+            print('Data in After Request is ', data)
             if isinstance(data, dict):
-                data["access_token"] = access_token
+                data["auth_token"] = auth_token
                 response.data = jsonify(data)
         return response
     except (RuntimeError, KeyError):
@@ -45,7 +47,7 @@ def login():
                 user.password,   # this password we are getting from database
                 pwd  # This password is entered by user
         ):
-            auth_token = create_access_token(identity=[user.user_id, user.role])  # jason web token
+            auth_token = create_access_token(identity=[user.user_id, user.role], expires_delta=False)  # jason web token
             if auth_token:
                 response_object = {
                     'status': 'success',
@@ -88,7 +90,7 @@ def add_ers_user():
         try:
             user = Ers_userService.add_ers_users(ers_user_obj)  # either None ot ErsUser object
             # generate the auth token
-            auth_token = create_access_token(identity=[user.user_id, user.role])  # jason web token
+            auth_token = create_access_token(identity=[user.user_id, user.role], expires_delta=False)  # jason web token
             if auth_token:
                 response_object = {
                     'status': 'success',

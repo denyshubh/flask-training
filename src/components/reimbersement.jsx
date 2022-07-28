@@ -1,28 +1,28 @@
 import { useState } from 'react'
 import axios from "axios";
+import { toast } from 'react-toastify';
 
-function Profile(props) {
+function Reimbersement(props) {
 
-  const [profileData, setProfileData] = useState(null)
+  const [reimbData, setReimbData] = useState(null)
   function getData() {
     axios({
       method: "GET",
-      url:"/ers_users/1",
+      url:"/reimburse",
       headers: {
         Authorization: 'Bearer ' + props.token
       }
     })
     .then((response) => {
       const res =response.data
-      res.access_token && props.setToken(res.access_token)
-      setProfileData(({
-        profile_name: res.name,
-        about_me: res.about}))
+      toast.info(res.msg)
+      console.log(res)
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
         console.log(error.response.status)
         console.log(error.response.headers)
+        toast.error(error.response.data.msg)
         }
     })}
 
@@ -30,14 +30,14 @@ function Profile(props) {
     <div className="Profile">
 
         <p>To get your profile details: </p><button onClick={getData}>Click me</button>
-        {profileData && <div>
+        {/* {setReimbData && <div>
               <p>Profile name: {profileData.profile_name}</p>
               <p>About me: {profileData.about_me}</p>
             </div>
-        }
+        } */}
 
     </div>
   );
 }
 
-export default Profile;
+export default Reimbersement;
