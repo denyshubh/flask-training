@@ -19,7 +19,7 @@ function Login(props) {
       .then((response) => {
         console.log(response)
         props.setToken(response.data.auth_token)
-        toast.error("An unexpected error occurrred.");
+        toast.info(response.data.message)
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)

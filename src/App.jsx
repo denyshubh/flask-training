@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './components/login'
 import Profile from './components/profile'
 import Logout from './components/logout'
+import Register from './components/register'
 import useToken from './components/useToken'
 import './App.css'
 import { ToastContainer } from 'react-toastify';
@@ -14,8 +15,11 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <ToastContainer />
-        {!token && token!=="" &&token!== undefined?  
-        <Login setToken={setToken} />
+        {!token && token!=="" &&token!== undefined? 
+        <Routes>
+         <Route exact path="/register" element={<Register setToken={setToken}/>}></Route>
+         <Route exact path="/login" element={<Login setToken={setToken} />}></Route>
+       </Routes>
         :(
           <>
             <Routes>

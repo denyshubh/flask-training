@@ -77,24 +77,25 @@ def logout():
     return response, 201
     
 
-@er.route('/ers_users', methods=['POST'])
+@er.route('/register', methods=['POST'])
 def add_ers_user():
     ''''''
     # register's a user in our database
     ers_user_obj = request.get_json()
     # check if user already exists
-    user = Ers_userService.get_user_by_id(ers_user_obj.get('user_id'))  # either None ot ErsUser object
+    user = Ers_userService.get_user_by_username(ers_user_obj.get('username'))  # either None ot ErsUser object
     if not user:
         try:
             user = Ers_userService.add_ers_users(ers_user_obj)  # either None ot ErsUser object
             # generate the auth token
-            auth_token = user.encode_auth_token(user.user_id, user.role)
-            response_object = {
-                'status': 'success',
-                'message': 'Successfully registered.',
-                'auth_token': auth_token.decode()
-            }
-            return make_response(jsonify(response_object)), 201
+            auth_token = create_access_token(identity=[user.user_id, user.role])  # jason web token
+            if auth_token:
+                response_object = {
+                    'status': 'success',
+                    'message': 'Successfully logged in.',
+                    'auth_token': auth_token
+                }
+                return make_response(jsonify(response_object)), 200
         except Exception as e:
             response_object = {
                 'status': 'fail',
