@@ -23,5 +23,5 @@ def run():
         from app.controller.ers_users_controller import er
         app.register_blueprint(er)
         app.register_blueprint(reimb)
-        app.run(host="0.0.0.0", port=8080, debug=True)
+        app.run(host="0.0.0.0", port=8080, debug=False)
 

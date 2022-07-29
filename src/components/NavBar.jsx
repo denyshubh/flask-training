@@ -21,7 +21,7 @@ function NavBar(props) {
                                   <li className="is-active"><Link to='#'>Home</Link></li>
                                   <li><Link to="/reimburse">View Reimbursement</Link></li>
                                   <li><Link to="/logout">Log Out</Link></li>
-                                  <li><Link to="/help">Help</Link></li>
+                                  <li><Link to="/reimburse/insert">Add Reimbursement</Link></li>
                               </ul>
                           </div>
                       </div>

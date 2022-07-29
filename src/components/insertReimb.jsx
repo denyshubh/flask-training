@@ -20,7 +20,10 @@ function InsertReimb(props) {
       axios({
         method: "POST",
         url:"/reimburse/insert",
-        data: reimbInfo
+        data: reimbInfo,
+        headers: {
+            Authorization: `Bearer ${props.token}`
+          }
       })
       .then((response) => {
         console.log(response)

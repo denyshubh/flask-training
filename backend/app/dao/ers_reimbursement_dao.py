@@ -81,7 +81,7 @@ class ErsReimbDao:
         command = (
             '''
             insert into ers_reimbursement(reimbursement_amount, submitted, resolved, description, status, receipt, type, reimb_author, reimb_resolver) 
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s) RETURNING *;
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) RETURNING *;
             '''
         )
         try:
@@ -99,6 +99,18 @@ class ErsReimbDao:
                             reimb_data.get('type'),
                             reimb_author,
                             reimb_author
+                        ))
+                    else:
+                         cur.execute(command, (
+                            reimb_data.get('reimbursement_amount'),
+                            date.today(),
+                            None,
+                            reimb_data.get('description'),
+                            reimb_data.get('status'),
+                            reimb_data.get('receipt'),
+                            reimb_data.get('type'),
+                            reimb_author,
+                            None
                         ))
                     conn.commit()
                     inserted_row = cur.fetchone()
