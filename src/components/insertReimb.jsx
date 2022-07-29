@@ -5,18 +5,16 @@ import { toast } from 'react-toastify';
 
 
 function InsertReimb(props) {
-    // reimbursement_amount NUMERIC NOT NULL,
-	// submitted TIMESTAMP(20) NOT NULL,
-	// resolved TIMESTAMP(30) NOT NULL,
+   
+	
 	// status text NOT NULL CHECK( status in ('pending','approved','denied')),
 	// type text NOT NULL CHECK(type in ('Lodging','Travel','Food','Other')),
 	// description VARCHAR(100) NOT NULL,
 	// receipt BYTEA NOT NULL,
 	// reimb_author SERIAL,
     // reimb_resolver SERIAL,
-	// CONSTRAINT fk_reimb_au
 
-    const [reimbInfo, setReimbInfo] = useState({ reimbursement_amount: "", status: "", description: ""});
+    const [reimbInfo, setReimbInfo] = useState({ reimbursement_amount: "", type:"", status: "", description: ""});
 
     function insertReimb(event) {
       axios({
@@ -50,7 +48,8 @@ function InsertReimb(props) {
         insertReimb(reimbInfo);
         setReimbInfo({ 
             reimbursement_amount: "",
-            type: "", 
+            type: "",
+            status: "",
             description: "", 
         });
     }
@@ -89,7 +88,18 @@ function InsertReimb(props) {
 
                                 </div>
                             </div>
-            
+
+                            <div className="field">
+                                <div className="control select">
+                                        <select name='status' value={reimbInfo.status} onChange={handleChange} className="input is-large">
+                                            <option value="Type">Status of Reimbursement</option>
+                                            <option value="pending">pending</option>
+                                            <option value="approved">approved</option>
+                                            <option value="denied">denied</option>
+                                        </select>
+
+                                </div>
+                            </div>
                             
                             <div className="field">
                                 <div className="control">

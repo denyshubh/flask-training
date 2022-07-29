@@ -68,14 +68,14 @@ def get_reimb():
 
 
 @reimb.route('/reimburse/insert', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def add_reimb():
     request_body_dict = request.get_json()
 
     try:
         # fetch the user data
-        # reimb_author = get_jwt_identity()[0]  # user_id of current user
-        reimb_author = 1
+        reimb_author = get_jwt_identity()[0]  # user_id of current user
+        # reimb_author = 1
         reimb_data = reimb_service.add_reimbursement(request_body_dict, reimb_author)  # fetching user details from database
         if reimb_data is None:
             response_object = {

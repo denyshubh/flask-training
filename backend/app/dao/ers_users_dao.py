@@ -1,9 +1,9 @@
 import psycopg
-
+import uuid
 from app.model.ers_users import ErsUser
 
-HOST = 'localhost'
-PWD = 'zxcvbnm'
+HOST = 'postgres.cluster-cq4c6aauvq7l.us-east-1.rds.amazonaws.com'
+PWD = 'gilaCSeDevz0JiavXnKt'
 
 class Ers_UserDao:
 
@@ -66,7 +66,7 @@ class Ers_UserDao:
 
     def add_user(self, ers_user_obj):
         command = (
-            "INSERT INTO ERS_Users(username, password, first_name, last_name, gender, role, phone_number, email_address) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING *"
+            "INSERT INTO ERS_Users(user_id, username, password, first_name, last_name, gender, role, phone_number, email_address) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING *"
         )
 
         try:
@@ -74,6 +74,7 @@ class Ers_UserDao:
                                  password=PWD) as conn:
                 with conn.cursor() as cur:
                     cur.execute(command, (
+                        uuid.uuid4().hex,
                         ers_user_obj.get('username'),
                         ers_user_obj.get('password'),
                         ers_user_obj.get('first_name'),

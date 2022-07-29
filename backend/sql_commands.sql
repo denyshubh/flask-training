@@ -1,5 +1,5 @@
 CREATE TABLE ERS_Users (
-	user_id SERIAL PRIMARY KEY,
+	user_id text PRIMARY KEY,
 	username VARCHAR(255) NOT NULL UNIQUE,
 	password VARCHAR(255) NOT NULL,
 	role text NOT NULL CHECK( role in ('finance_manager','employee')),
@@ -20,8 +20,8 @@ CREATE TABLE ERS_REIMBURSEMENT (
 	type text NOT NULL CHECK(type in ('Lodging','Travel','Food','Other')),
 	description VARCHAR(100) NOT NULL,
 	receipt text NOT NULL,
-	reimb_author SERIAL NOT NULL,
-    reimb_resolver SERIAL,
+	reimb_author text NOT NULL,
+    reimb_resolver text,
 	CONSTRAINT fk_reimb_author FOREIGN KEY(reimb_author) REFERENCES ERS_Users(user_id),
 	CONSTRAINT fk_reimb_resolver FOREIGN KEY(reimb_resolver) REFERENCES ERS_Users(user_id)
 );

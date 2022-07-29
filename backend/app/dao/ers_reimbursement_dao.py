@@ -2,8 +2,8 @@ import psycopg
 from datetime import date
 from app.model.ers_reimbursement import ErsReimburse
 
-HOST = 'localhost'
-PWD = 'zxcvbnm'
+HOST = 'postgres.cluster-cq4c6aauvq7l.us-east-1.rds.amazonaws.com'
+PWD = 'gilaCSeDevz0JiavXnKt'
 
 class ErsReimbDao:
 
@@ -80,7 +80,7 @@ class ErsReimbDao:
         
         command = (
             '''
-            insert into ers_reimbursement(reimbursement_amount, submitted, description, status, receipt, type, reimb_author, reimb_resolver) 
+            insert into ers_reimbursement(reimbursement_amount, submitted, resolved, description, status, receipt, type, reimb_author, reimb_resolver) 
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s) RETURNING *;
             '''
         )
@@ -88,16 +88,18 @@ class ErsReimbDao:
             with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
                                  password=PWD) as conn:
                 with conn.cursor() as cur:
-                    cur.execute(command, (
-                        reimb_data.get('reimbursement_amount'),
-                        date.today(),
-                        reimb_data.get('description'),
-                        'pending',
-                        reimb_data.get('receipt'),
-                        reimb_data.get('type'),
-                        reimb_author,
-                        1
-                    ))
+                    if reimb_data.get('status') != 'pending':
+                        cur.execute(command, (
+                            reimb_data.get('reimbursement_amount'),
+                            date.today(),
+                            date.today(),
+                            reimb_data.get('description'),
+                            reimb_data.get('status'),
+                            reimb_data.get('receipt'),
+                            reimb_data.get('type'),
+                            reimb_author,
+                            reimb_author
+                        ))
                     conn.commit()
                     inserted_row = cur.fetchone()
                     if inserted_row:

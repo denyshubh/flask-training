@@ -20,7 +20,10 @@ function Logout(props) {
         console.log(error.response.status)
         console.log(error.response.headers)
         toast.error(error.response.data.msg)
+        if (error.response.data.msg === "Signature verification failed") {
+          props.removeToken()
         }
+      }
     })}
 
     logMeOut()

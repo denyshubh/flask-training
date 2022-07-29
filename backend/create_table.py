@@ -1,12 +1,18 @@
 import psycopg
-HOST = 'localhost'
-PWD = 'zxcvbnm'
+HOST = 'postgres.cluster-cq4c6aauvq7l.us-east-1.rds.amazonaws.com'
+PWD = 'gilaCSeDevz0JiavXnKt'
 
 def create_table():
     commands = (
         """
+        DROP TABLE ERS_REIMBURSEMENT;
+        """,
+        """
+        DROP TABLE  ERS_Users;
+        """,
+        """
         CREATE TABLE ERS_Users (
-            user_id SERIAL PRIMARY KEY,
+            user_id text PRIMARY KEY,
             username VARCHAR(255) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
             role text NOT NULL CHECK( role in ('finance_manager','employee')),
@@ -27,12 +33,11 @@ def create_table():
             status text NOT NULL CHECK( status in ('pending','approved','denied')),
             type text NOT NULL CHECK(type in ('Lodging','Travel','Food','Other')),
             description VARCHAR(100) NOT NULL,
-            receipt text NOT NULL,
-            reimb_author SERIAL NOT NULL,
-            reimb_resolver SERIAL,
+            receipt text,
+            reimb_author text NOT NULL,
+            reimb_resolver text,
             CONSTRAINT fk_reimb_author FOREIGN KEY(reimb_author) REFERENCES ERS_Users(user_id),
             CONSTRAINT fk_reimb_resolver FOREIGN KEY(reimb_resolver) REFERENCES ERS_Users(user_id)
-        );
         );
         """
     )
