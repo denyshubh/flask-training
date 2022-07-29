@@ -28,7 +28,7 @@ function App() {
             <Routes>
               <Route  exact path="/logout" element={<Logout token={token} removeToken={removeToken}/>}></Route>
               <Route exact path="/reimburse" element={<Reimbersement token={token} setToken={setToken}/>}></Route>
-              <Route exact path="/reimburse/insert" element={<InsertReimb token={token} setToken={setToken}/>}></Route>
+              <Route exact path="/reimburse/insert" element={<InsertReimb token={token} setToken={setToken}/>}></Route>      
             </Routes>
           </>
         )}
