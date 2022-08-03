@@ -3,7 +3,7 @@ function NavBar(props) {
   const is_logged_in = props.token != null ? true : false
   if (is_logged_in){
     return (
-      <div className="hero-head">
+      <div className="hero-head columns is-mobile">
           <nav className="navbar">
               <div className="container">
                   <div className="navbar-brand">

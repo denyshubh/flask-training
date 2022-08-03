@@ -1,9 +1,9 @@
 import psycopg
 from datetime import date
 from app.model.ers_reimbursement import ErsReimburse
-
-HOST = 'postgres.cluster-cq4c6aauvq7l.us-east-1.rds.amazonaws.com'
-PWD = 'gilaCSeDevz0JiavXnKt'
+import config
+HOST = config.BaseConfig.DB_HOST
+PWD = config.BaseConfig.DB_PWD
 
 class ErsReimbDao:
 

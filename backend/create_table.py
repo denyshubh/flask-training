@@ -1,14 +1,13 @@
 import psycopg
-HOST = 'postgres.cluster-cq4c6aauvq7l.us-east-1.rds.amazonaws.com'
-PWD = 'gilaCSeDevz0JiavXnKt'
+import config
 
 def create_table():
     commands = (
         """
-        DROP TABLE ERS_REIMBURSEMENT;
+        DROP TABLE IF EXISTS ERS_REIMBURSEMENT;
         """,
         """
-        DROP TABLE  ERS_Users;
+        DROP TABLE  IF EXISTS ERS_Users;
         """,
         """
         CREATE TABLE ERS_Users (
@@ -42,8 +41,8 @@ def create_table():
         """
     )
     try:
-        with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
-                                password=PWD) as conn:
+        with psycopg.connect(host=config.BaseConfig.DB_HOST, port="5432", dbname="postgres", user="postgres",
+                                password=config.BaseConfig.DB_PWD) as conn:
               with conn.cursor() as cur:
                 for command in commands:
                     cur.execute(command, binary=True)

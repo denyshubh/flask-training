@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from "axios";
 // import { toast } from 'react-toastify';
 import { useTable } from "react-table";
@@ -19,124 +19,37 @@ function Reimbersement(props) {
       setReimbData(result.data.data);
     })();
   }, []);
-  
-  // function getData() {
-
-  //   axios({
-  //     method: "GET",
-  //     url:"/reimburse",
-  //     headers: {
-  //       Authorization: 'Bearer ' + props.token
-  //     }
-  //   })
-  //   .then((response) => {
-  //     const res  = response.data
-  //     console.log(res)
-  //     setReimbData({ ...res})
-  //     toast.info(response.statusText)
-  //   }).catch((error) => {
-  //     if (error.response) {
-  //       console.log(error.response)
-  //       console.log(error.response.status)
-  //       console.log(error.response.headers)
-  //       toast.error(error.response.data.msg)
-  //       }
-  //   })
-  //   // event.preventDefault()
-  // }
-  // getData()
-  const columns = useMemo(
-    () => [
-      {
-        Header: "User Info",
-        // First group columns
-        columns: [
-          {
-            Header: "User Id",
-            accessor: "show.user_id"
-          },
-          {
-            Header: "Fisrt Name",
-            accessor: "show.first_name"
-          },
-          {
-            Header: "Last Name",
-            accessor: "show.last_name"
-          },
-          {
-            Header: "Gender",
-            accessor: "show.gender"
-          },
-        ]
-      },
-      {
-        // Second group - Details
-        Header: "Details",
-        // Second group columns
-        columns: [
-          {
-            Header: "Reimbersement Amount",
-            accessor: "show.amount"
-          },
-          {
-            Header: "Status",
-            accessor: "show.status"
-          },
-          {
-            Header: "Type",
-            accessor: "show.type"
-          },
-          {
-            Header: "Author",
-            accessor: "show.author"
-          },
-          {
-            Header: "Resolver",
-            accessor: "show.resolver"
-          }
-        ]
-      }
-    ],
-    []
-  );
-    // Use the state and functions returned from useTable to build your UI
-  const {
-      getTableProps,
-      getTableBodyProps,
-      headerGroups,
-      rows,
-      prepareRow,
-    } = useTable({
-      columns,
-      data,
-    })
-  
-    // Render the UI for your table
-    return (
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-              ))}
+  // id: 'reimb_author', accessor: ƒ, …}
+  // 1: {Header: 'Submitted', parent: {…}, depth: 1, id: 'submitted', accessor: ƒ, …}
+  // 2: {Header: 'Resolved', parent: {…}, depth: 1, id: 'resolved', accessor: ƒ, …}
+  // 3: {Header: 'Reimbersement Amount', parent: {…}, depth: 1, id: 'amount', accessor: ƒ, …}
+  // 4: {Header: 'Status', parent: {…}, depth: 1, id: 'status', accessor: ƒ, …}
+  // 5: {Header: 'Type', parent: {…}, depth: 1, id: 'type', accessor: ƒ, …}
+  // 6: {Header: 'Author', parent: {…}, depth: 1, id: 'reimb_author', accessor: ƒ, …}
+  // 7: {Header: 'Resolver', parent: {…}, depth: 1, id: 'reimb_resolver'
+  return (
+    <div className="table-container hero-body">
+        <h1>Reimbersement Data</h1>
+        <table className="table">
+        <tbody>
+            <tr>
+                <th><abbr title="Position">Reimb Id</abbr></th>
+                <th><abbr title="Position">Status</abbr></th>
+                <th><abbr title="Position">Type</abbr></th>
+                <th><abbr title="Position">Amount</abbr></th>
             </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
-              </tr>
-            )
-          })}
+            {data.map((item, i) => (
+                <tr key={i}>
+                    <td>{item.reimb_id}</td>
+                    <td>{item.status}</td>
+                    <td>{item.type}</td>
+                    <td>{item.reimb_amount}</td>
+                </tr>
+            ))}
         </tbody>
-      </table>
-    )
+        </table>
+    </div>
+  );
 }
 
 export default Reimbersement;

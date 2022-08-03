@@ -1,9 +1,10 @@
 import psycopg
 import uuid
 from app.model.ers_users import ErsUser
+import config
 
-HOST = 'postgres.cluster-cq4c6aauvq7l.us-east-1.rds.amazonaws.com'
-PWD = 'gilaCSeDevz0JiavXnKt'
+HOST = config.BaseConfig.DB_HOST
+PWD = config.BaseConfig.DB_PWD
 
 class Ers_UserDao:
 
