@@ -22,5 +22,5 @@ class BaseConfig:
     SESSION_TYPE = 'filesystem'
     JWT_SECRET_KEY = os.getenv('SECRET_KEY', os.urandom(32))
     JWT_ACCESS_TOKEN_EXPIRES = False
-DB_HOST='postgres2.cluster-crhpxbeyfo5y.us-east-1.rds.amazonaws.com'
+DB_HOST='34.172.249.128'
 DB_PWD='Denyshubham99#'

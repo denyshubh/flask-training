@@ -8,7 +8,7 @@ PWD = config.DB_PWD
 class ErsReimbDao:
 
     def get_reimb_by_id(self, user_id):
-        command = "select * from ERS_REIMBURSEMENT WHERE user_id=(%s);"
+        command = "select * from ERS_REIMBURSEMENT WHERE reimb_author=(%s);"
         try:
             with psycopg.connect(host=HOST, port="5432", dbname="postgres", user="postgres",
                                  password=PWD) as conn:

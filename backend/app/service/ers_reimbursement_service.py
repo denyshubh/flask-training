@@ -17,11 +17,15 @@ class Ers_ReimburseService:
         return data
 
     def get_reimburse_by_id(self, ers_user_id):
-        reimburse = self.ers_reimb_dao.get_reimb_by_id(ers_user_id)  # list of reimburse or None
-        if reimburse is None:
+        reimburses = self.ers_reimb_dao.get_reimb_by_id(ers_user_id)  # list of reimburse or None
+
+        data = []
+        if reimburses is None:
             print(f'No reimbursement done by employee {ers_user_id}')
             return None
-        return reimburse
+        for reimb in reimburses:
+            data.append(reimb.to_dict())
+        return data
 
     def get_reimburse_by_reimb_id(self, reimb_id, status):
         reimburse = self.ers_reimb_dao.get_reimb_by_id(reimb_id, status)  # single reimbursement or None

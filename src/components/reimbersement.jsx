@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from "axios";
 // import { toast } from 'react-toastify';
-import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 
 function Reimbersement(props) {
@@ -21,14 +20,7 @@ function Reimbersement(props) {
       setReimbData(result.data.data);
     })();
   }, []);
-  // id: 'reimb_author', accessor: ƒ, …}
-  // 1: {Header: 'Submitted', parent: {…}, depth: 1, id: 'submitted', accessor: ƒ, …}
-  // 2: {Header: 'Resolved', parent: {…}, depth: 1, id: 'resolved', accessor: ƒ, …}
-  // 3: {Header: 'Reimbersement Amount', parent: {…}, depth: 1, id: 'amount', accessor: ƒ, …}
-  // 4: {Header: 'Status', parent: {…}, depth: 1, id: 'status', accessor: ƒ, …}
-  // 5: {Header: 'Type', parent: {…}, depth: 1, id: 'type', accessor: ƒ, …}
-  // 6: {Header: 'Author', parent: {…}, depth: 1, id: 'reimb_author', accessor: ƒ, …}
-  // 7: {Header: 'Resolver', parent: {…}, depth: 1, id: 'reimb_resolver'
+  
   return (
     <div className="table-container hero-body">
         <h1>Reimbersement Data</h1>

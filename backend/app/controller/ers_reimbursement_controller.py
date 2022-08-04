@@ -35,11 +35,11 @@ def get_reimb():
     user_id, role = get_jwt_identity()
     if role == 'employee':
         # send employee reimbersement data
-        reimb_data = get_reimburse_by_id(user_id)
+        reimb_data = reimb_service.get_reimburse_by_id(user_id)
         if reimb_data:
             responseObject = {
                 'status': 'success',
-                'data': reimb_data.to_dict,
+                'data': reimb_data,
                 'message': 'Success'
             }
             return make_response(jsonify(responseObject)), 200
