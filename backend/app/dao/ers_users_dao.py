@@ -3,8 +3,8 @@ import uuid
 from app.model.ers_users import ErsUser
 import config
 
-HOST = config.BaseConfig.DB_HOST
-PWD = config.BaseConfig.DB_PWD
+HOST = config.DB_HOST
+PWD = config.DB_PWD
 
 class Ers_UserDao:
 

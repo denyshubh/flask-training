@@ -2,8 +2,8 @@ import psycopg
 from datetime import date
 from app.model.ers_reimbursement import ErsReimburse
 import config
-HOST = config.BaseConfig.DB_HOST
-PWD = config.BaseConfig.DB_PWD
+HOST = config.DB_HOST
+PWD = config.DB_PWD
 
 class ErsReimbDao:
 

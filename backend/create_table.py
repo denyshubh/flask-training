@@ -41,8 +41,8 @@ def create_table():
         """
     )
     try:
-        with psycopg.connect(host=config.BaseConfig.DB_HOST, port="5432", dbname="postgres", user="postgres",
-                                password=config.BaseConfig.DB_PWD) as conn:
+        with psycopg.connect(host=config.DB_HOST, port="5432", dbname="postgres", user="postgres",
+                                password=config.DB_PWD) as conn:
               with conn.cursor() as cur:
                 for command in commands:
                     cur.execute(command, binary=True)
