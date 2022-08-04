@@ -33,10 +33,15 @@ function Reimbersement(props) {
         <table className="table">
         <tbody>
             <tr>
-                <th><abbr title="Position">Reimb Id</abbr></th>
-                <th><abbr title="Position">Status</abbr></th>
-                <th><abbr title="Position">Type</abbr></th>
-                <th><abbr title="Position">Amount</abbr></th>
+                <th><abbr title="ReimbID">Reimb Id</abbr></th>
+                <th><abbr title="Status">Status</abbr></th>
+                <th><abbr title="Type">Type</abbr></th>
+                <th><abbr title="Amount">Amount</abbr></th>
+                <th><abbr title="Description">Description</abbr></th>
+                <th><abbr title="Submitted">Submitted Date</abbr></th>
+                <th><abbr title="Resolved">Resolve Date</abbr></th>
+                <th><abbr title="Author">Created By</abbr></th>
+                <th><abbr title="Resolver">Resolved By</abbr></th>
             </tr>
             {data.map((item, i) => (
                 <tr key={i}>
@@ -44,6 +49,11 @@ function Reimbersement(props) {
                     <td>{item.status}</td>
                     <td>{item.type}</td>
                     <td>{item.reimb_amount}</td>
+                    <td>{item.description}</td>
+                    <td>{item.submitted}</td>
+                    <td>{item.resolved}</td>
+                    <td>{item.reimb_author}</td>
+                    <td>{item.reimb_resolver}</td>
                 </tr>
             ))}
         </tbody>
