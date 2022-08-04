@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import axios from "axios";
 // import { toast } from 'react-toastify';
 import { useTable } from "react-table";
+import { Link } from "react-router-dom";
+
 function Reimbersement(props) {
 
   const [data, setReimbData] = useState([])
@@ -54,6 +56,16 @@ function Reimbersement(props) {
                     <td>{item.resolved}</td>
                     <td>{item.reimb_author}</td>
                     <td>{item.reimb_resolver}</td>
+                    <td>
+                      <Link
+                        to={{
+                          pathname: "/reimburse/update",
+                          search: `?reimbID=${item.reimb_id}`,
+                        }}
+                      >
+                        <span><i class="fa-solid fa-pen-to-square"></i></span>
+                      </Link>
+                    </td>
                 </tr>
             ))}
         </tbody>
